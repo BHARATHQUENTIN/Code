@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
   
-      const passengerId = Math.floor(100000 + Math.random() * 900000);
+      const passengerId = Math.floor(10000 + Math.random() * 90000);
       let password =
         firstName.value.trim().substring(0, 4).padEnd(4, "_") + "@123";
   
