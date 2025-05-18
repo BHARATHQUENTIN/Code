@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Passenger Registration</title>
+
+    <style>
+        /* Internal CSS per your requirements */
+        body {
+            background-color: teal;
+            text-align: center;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .registration-container {
+            display: inline-block;
+            background-color: #f5f5f5; /* Gray94 */
+            color: black;
+            font-family: Arial, sans-serif;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #888;
+            padding: 20px;
+            margin-top: 50px;
+            width: 350px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 7px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            resize: none;
+        }
+
+        textarea {
+            height: 60px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #register-btn {
+            background-color: dodgerblue;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        #register-btn:hover {
+            background-color: cobalt;
+        }
+
+        #reset-btn {
+            background-color: lightgray;
+            margin-left: 10px;
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .success-message {
+            color: green;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .acknowledgment {
+            margin-top: 20px;
+            background-color: #e0ffe0;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="registration-container">
+        <h2>Passenger Registration</h2>
+        <form id="registration-form" novalidate>
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" maxlength="50" required />
+            <div id="firstName-error" class="error"></div>
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" maxlength="50" required />
+            <div id="lastName-error" class="error"></div>
+
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" required />
+            <div id="dob-error" class="error"></div>
+
+            <label for="email">Email ID:</label>
+            <input type="text" id="email" required />
+            <div id="email-error" class="error"></div>
+
+            <label for="address">Address:</label>
+            <textarea id="address" maxlength="100" required></textarea>
+            <div id="address-error" class="error"></div>
+
+            <label for="contactNumber">Contact Number:</label>
+            <input type="text" id="contactNumber" maxlength="10" required />
+            <div id="contactNumber-error" class="error"></div>
+
+            <button type="submit" id="register-btn">Register</button>
+            <button type="reset" id="reset-btn">Reset</button>
+            
+        </form>
+
+        <div id="acknowledgment" class="acknowledgment" style="display:none;"></div>
+    </div>
+
+    <script src="regi.js"></script>
+</body>
+</html>

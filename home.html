@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AirLineManagementSystem - Home</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #e9f2f9;
+    }
+    nav {
+      background-color: #004080;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 20px;
+      align-items: center;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li {
+      margin: 0 15px;
+      cursor: pointer;
+    }
+    nav ul li:hover {
+      text-decoration: underline;
+    }
+    #welcome-msg {
+      font-weight: bold;
+    }
+    header {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 28px;
+      font-weight: bold;
+      color: #003366;
+    }
+    .container {
+      width: 90%;
+      max-width: 900px;
+      margin: 0 auto 40px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+    form#search-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px 20px;
+      align-items: center;
+    }
+    form#search-form label {
+      font-weight: bold;
+    }
+    form#search-form select,
+    form#search-form input[type="date"],
+    form#search-form input[type="number"] {
+      width: 100%;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    form#search-form button {
+      grid-column: span 2;
+      padding: 10px;
+      background-color: #004080;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    form#search-form button:hover {
+      background-color: #002850;
+    }
+    .profile-container,
+    .trips-tabs {
+      margin-top: 30px;
+    }
+    .profile-container input {
+      padding: 6px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 100%;
+    }
+    .profile-container button {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background-color: #004080;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .tabs-header {
+      display: flex;
+      gap: 20px;
+      border-bottom: 2px solid #004080;
+      cursor: pointer;
+    }
+    .tabs-header div {
+      padding: 10px 15px;
+      color: #004080;
+      font-weight: bold;
+    }
+    .tabs-header .active {
+      border-bottom: 3px solid #004080;
+      color: #002850;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    table th,
+    table td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    table th {
+      background-color: #f0f8ff;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul id="nav-menu">
+      <li onclick="showHome()">Home</li>
+      <li onclick="showProfile()">My Profile</li>
+      <li onclick="showTrips()">My Trips</li>
+      <li onclick="logout()">Logout</li>
+    </ul>
+    <div id="welcome-msg">Welcome <span id="passengerName">John Doe</span> !!!</div>
+  </nav>
+
+  <header>AirLineManagementSystem</header>
+
+  <div class="container" id="main-container">
+    <!-- Search Form -->
+    <form id="search-form">
+      <label for="origin">Origin:</label>
+      <select id="origin" required>
+        <option value="">Select Origin</option>
+        <option value="New York">New York</option>
+        <option value="Los Angeles">Los Angeles</option>
+      </select>
+
+      <label for="destination">Destination:</label>
+      <select id="destination" required>
+        <option value="">Select Destination</option>
+        <option value="London">London</option>
+        <option value="Paris">Paris</option>
+      </select>
+
+      <label for="departure">Departure:</label>
+      <input type="date" id="departure" required />
+
+      <label for="travellers">No of Travellers:</label>
+      <input type="number" id="travellers" min="1" max="10" value="1" required />
+
+      <label for="class">Class:</label>
+      <select id="class" required>
+        <option value="Economy">Economy</option>
+        <option value="Business">Business</option>
+      </select>
+
+      <button type="submit">Search</button>
+    </form>
+
+    <!-- Profile Section -->
+    <div class="profile-container" id="profile-section" style="display: none;">
+      <h3>My Profile</h3>
+      <label>Name:</label><input type="text" id="profile-name" value="John Doe" disabled />
+      <label>Email:</label><input type="email" id="profile-email" value="john@example.com" disabled />
+      <label>Phone:</label><input type="text" id="profile-phone" value="1234567890" disabled />
+      <button onclick="enableProfileEdit()" id="edit-btn">Edit</button>
+      <button onclick="saveProfileEdit()" id="save-btn" style="display:none;">Save</button>
+    </div>
+
+    <!-- Trips Section -->
+    <div class="trips-tabs" id="trips-section" style="display: none;">
+      <div class="tabs-header">
+        <div id="tab-upcoming" class="active" onclick="showTab('upcoming')">Upcoming</div>
+        <div id="tab-cancelled" onclick="showTab('cancelled')">Cancelled</div>
+        <div id="tab-completed" onclick="showTab('completed')">Completed</div>
+      </div>
+      <div id="tab-content">
+        <table id="upcoming-table">
+          <thead><tr><th>Flight</th><th>From</th><th>To</th><th>Date</th><th>Price</th></tr></thead>
+          <tbody>
+            <tr><td>Flight A1</td><td>New York</td><td>London</td><td>2025-06-10</td><td>$500</td></tr>
+          </tbody>
+        </table>
+        <table id="cancelled-table" style="display: none;">
+          <thead><tr><th>Flight</th><th>From</th><th>To</th><th>Date</th><th>Price</th></tr></thead>
+          <tbody>
+            <tr><td>Flight C2</td><td>LA</td><td>Paris</td><td>2024-05-01</td><td>$450</td></tr>
+          </tbody>
+        </table>
+        <table id="completed-table" style="display: none;">
+          <thead><tr><th>Flight</th><th>From</th><th>To</th><th>Date</th><th>Price</th></tr></thead>
+          <tbody>
+            <tr><td>Flight D3</td><td>Chicago</td><td>Tokyo</td><td>2023-12-10</td><td>$800</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+  const userId = localStorage.getItem("loggedInUserId");
+  const users = JSON.parse(localStorage.getItem("registeredUsers")) || [];
+
+  if (!userId) {
+    alert("Please log in first.");
+    window.location.href = "login.html";
+    return;
+  }
+
+  const currentUser = users.find(user => user.passengerId.toString() === userId);
+
+  if (!currentUser) {
+    alert("User not found.");
+    window.location.href = "login.html";
+    return;
+  }
+
+  // Set welcome name
+  document.getElementById("passengerName").textContent = currentUser.firstName+ " " + currentUser.lastName;;
+
+  // Fill profile fields
+  document.getElementById("profile-name").value = currentUser.firstName + " " + currentUser.lastName;
+  document.getElementById("profile-email").value = currentUser.email;
+  document.getElementById("profile-phone").value = currentUser.contactNumber;
+});
+
+// Show Home Section
+function showHome() {
+  document.getElementById("search-form").style.display = "grid";
+  document.getElementById("profile-section").style.display = "none";
+  document.getElementById("trips-section").style.display = "none";
+}
+
+// Show Profile Section
+function showProfile() {
+  document.getElementById("search-form").style.display = "none";
+  document.getElementById("profile-section").style.display = "block";
+  document.getElementById("trips-section").style.display = "none";
+}
+
+// Show Trips Section
+function showTrips() {
+  document.getElementById("search-form").style.display = "none";
+  document.getElementById("profile-section").style.display = "none";
+  document.getElementById("trips-section").style.display = "block";
+}
+
+// Logout Function
+function logout() {
+  alert("Logging out...");
+  localStorage.removeItem("loggedInUserId");
+  window.location.href = "login.html"; // ✅ Fixed typo here
+}
+
+// Enable Profile Editing
+function enableProfileEdit() {
+  document.getElementById("profile-name").disabled = false;
+  document.getElementById("profile-email").disabled = false;
+  document.getElementById("profile-phone").disabled = false;
+  document.getElementById("edit-btn").style.display = "none";
+  document.getElementById("save-btn").style.display = "inline-block";
+}
+
+// Save Profile Edits
+function saveProfileEdit() {
+  const userId = localStorage.getItem("loggedInUserId");
+  const users = JSON.parse(localStorage.getItem("registeredUsers")) || [];
+
+  const name = document.getElementById("profile-name").value;
+  const email = document.getElementById("profile-email").value;
+  const phone = document.getElementById("profile-phone").value;
+
+  const userIndex = users.findIndex(user => user.passengerId.toString() === userId);
+  if (userIndex !== -1) {
+    users[userIndex].firstName = name;
+    users[userIndex].email = email;
+    users[userIndex].contactNumber = phone;
+    localStorage.setItem("registeredUsers", JSON.stringify(users));
+
+    // Update welcome text
+    document.getElementById("passengerName").textContent = name;
+  }
+
+  document.getElementById("profile-name").disabled = true;
+  document.getElementById("profile-email").disabled = true;
+  document.getElementById("profile-phone").disabled = true;
+  document.getElementById("edit-btn").style.display = "inline-block";
+  document.getElementById("save-btn").style.display = "none";
+  alert("Profile updated successfully!");
+}
+
+// Tab Switching (Upcoming, Cancelled, Completed)
+function showTab(tabName) {
+  const tabs = ["upcoming", "cancelled", "completed"];
+  tabs.forEach((tab) => {
+    document.getElementById(`${tab}-table`).style.display = tab === tabName ? "table" : "none";
+    document.getElementById(`tab-${tab}`).classList.toggle("active", tab === tabName);
+  });
+}
+    </script>
+</body>
+</html>
