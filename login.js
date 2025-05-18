@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const password = passwordInput.value.trim();
         messageDiv.textContent = "";
 
+        // Basic validation
         if (userId.length === 0 || password.length === 0) {
             messageDiv.textContent = "User ID and Password are mandatory.";
             return;
@@ -41,19 +42,30 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        // Logic to find matching user
         const user = validUsers.find(u => u.userId === userId);
 
-        if (!user) {
-            messageDiv.textContent = "ID not valid.";
-        } else if (user.password !== password) {
-            messageDiv.textContent = "Password not valid.";
+        if (user) {
+            if (user.password === password) {
+                // Success
+                localStorage.setItem("loggedInUserId", userId);
+                messageDiv.textContent = "Login successful.";
+                setTimeout(() => {
+                    window.location.href = "home.html";
+                }, 1000);
+            } else {
+                // Wrong password
+                messageDiv.textContent = "Password not valid.";
+            }
         } else {
-            // ✅ Store logged-in user ID
-            localStorage.setItem("loggedInUserId", userId);
-            messageDiv.textContent = "Login successful.";
-            setTimeout(() => {
-                window.location.href = "home.html";
-            }, 1000);
+            // Check if password matches any other user
+            const passwordMatch = validUsers.some(u => u.password === password);
+
+            if (passwordMatch) {
+                messageDiv.textContent = "ID not valid.";
+            } else {
+                messageDiv.textContent = "Both ID/Password is not valid.";
+            }
         }
-    })      
+    });
 });
